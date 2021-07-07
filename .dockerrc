@@ -1,0 +1,3 @@
+export COMPOSE_PROJECT_NAME="default"
+export COMPOSE_FILE="/vagrant/docker-compose.yml"
+export PATH="/vagrant:$PATH"

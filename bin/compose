@@ -1,0 +1,130 @@
+#!/usr/bin/env sh
+
+check_env() {
+    if [ -z "$COMPOSE_FILE" ]; then
+      if [ -f "$PWD/docker-compose.yml" ]; then
+        export COMPOSE_FILE="$PWD/docker-compose.yml"
+        return
+      fi
+        echo "Undefined environment variables: COMPOSE_FILE." >&2
+        exit 1
+    fi
+}
+
+up() {
+    docker-compose up -d --force-recreate "$@"
+    exit $?
+}
+
+halt() {
+    docker-compose stop "$@"
+    exit $?
+}
+
+reload() {
+    docker-compose stop "$@"
+    docker-compose up -d --force-recreate "$@"
+    exit $?
+}
+
+destroy() {
+    docker-compose stop "$@"
+    docker-compose rm -f "$@"
+    exit $?
+}
+
+build() {
+    docker-compose build "$@"
+    exit $?
+}
+
+ps() {
+    docker-compose ps
+    exit $?
+}
+
+volume_ls() {
+    docker volume ls
+    exit $?
+}
+
+volume_rm() {
+    docker volume rm "$@"
+    exit $?
+}
+
+thru() {
+    docker-compose "$@"
+    exit $?
+}
+
+usage() {
+    echo "Usage: $0 [command] [service_name ..]" 1>&2
+    echo "" 1>&2
+    echo "Docker compose command utility, collection of convenient shortcuts." 1>&2
+    echo "" 1>&2
+    echo "Commands:" 1>&2
+    echo "  up                    startup service(s)" 1>&2
+    echo "  halt                  shutdown service(s)" 1>&2
+    echo "  reload                restart service(s)" 1>&2
+    echo "  destroy               shutdown and destroy service(s)" 1>&2
+    echo "  build                 build docker image(s)" 1>&2
+    echo "  ps                    show process" 1>&2
+    echo "  volume                list data volume(s)" 1>&2
+    echo "  volume rm             remove data volume(s)" 1>&2
+    exit 1
+}
+
+case ${1} in
+    -h|--help|help)
+        usage
+        ;;
+    up)
+        check_env
+        shift
+        up "$@"
+        ;;
+    halt)
+        check_env
+        shift
+        halt "$@"
+        ;;
+    reload)
+        check_env
+        shift
+        reload "$@"
+        ;;
+    destroy)
+        check_env
+        shift
+        destroy "$@"
+        ;;
+    build)
+        check_env
+        shift
+        build "$@"
+        ;;
+    ps)
+        check_env
+        ps
+        ;;
+    volume)
+        shift
+        case ${1} in
+           rm)
+                shift
+                volume_rm "$@"
+                ;;
+           ls)
+                volume_ls
+                ;;
+           *)
+                volume_ls
+                ;;
+        esac
+        ;;
+    *)
+        check_env
+        thru "$@"
+        ;;
+esac
