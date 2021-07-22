@@ -54,6 +54,16 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder ".", "/vagrant", type: "virtualbox", mount_options: ["ttl=0"]
+  config.vm.synced_folder "../php7", "/php7", type: "virtualbox", mount_options: ["ttl=0"]
+  config.vm.synced_folder "../frontendjs", "/frontendjs", type: "virtualbox", mount_options: ["ttl=0"]
+  config.vm.synced_folder "../nodejs12", "/nodejs12", type: "virtualbox", mount_options: ["ttl=0"]
+  config.vm.synced_folder "../serverlessjs10", "/serverlessjs10", type: "virtualbox", mount_options: ["ttl=0"]
+  config.vm.synced_folder "../terraform12", "/terraform12", type: "virtualbox", mount_options: ["ttl=0"]
+  config.vm.synced_folder "../docker-awscli", "/docker-awscli", type: "virtualbox", mount_options: ["ttl=0"]
+  config.vm.synced_folder "../cakephp-aws-s3bucket", "/cakephp-aws-s3bucket", type: "virtualbox", mount_options: ["ttl=0"]
+  config.vm.synced_folder "../corporate", "/corporate", type: "virtualbox", mount_options: ["ttl=0"]
+  config.vm.synced_folder "../webuke-jp", "/webuke-jp", type: "virtualbox", mount_options: ["ttl=0"]
+  config.vm.synced_folder "../hyakuka-jp", "/hyakuka-jp", type: "virtualbox", mount_options: ["ttl=0"]
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -100,11 +110,11 @@ Vagrant.configure("2") do |config|
     source /home/vagrant/.dockerrc && /usr/local/bin/docker-compose up -d --force-recreate
   SHELL
 
-  config.vm.define :ubuntu, primary: false, autostart: false do |ubuntu|
+  config.vm.define :ubuntu, primary: true, autostart: true do |ubuntu|
     ubuntu.vm.box = "ubuntu/bionic64"
   end
 
-  config.vm.define :centos, primary: true, autostart: true do |centos|
+  config.vm.define :centos, primary: false, autostart: false do |centos|
     centos.vm.box = "centos/7"
   end
 end
