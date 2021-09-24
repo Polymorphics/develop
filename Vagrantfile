@@ -110,11 +110,7 @@ Vagrant.configure("2") do |config|
     source /home/vagrant/.dockerrc && /usr/local/bin/docker-compose up -d --force-recreate
   SHELL
 
-  config.vm.define :ubuntu, primary: true, autostart: true do |ubuntu|
-    ubuntu.vm.box = "ubuntu/bionic64"
-  end
-
-  config.vm.define :centos, primary: false, autostart: false do |centos|
-    centos.vm.box = "centos/7"
+  config.vm.define :default, primary: true, autostart: true do |ubuntu|
+    ubuntu.vm.box = "ubuntu/focal64"
   end
 end
