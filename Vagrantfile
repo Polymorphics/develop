@@ -6,7 +6,7 @@ HOSTNAME = "develop.localdomain"
 CPU = "2"
 MOMERY = "2048"
 
-COMPOSE_VERSION = "1.25.3"
+COMPOSE_VERSION = "1.29.2"
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
