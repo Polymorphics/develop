@@ -4,7 +4,7 @@
 IPADDR = "192.168.128.3"
 HOSTNAME = "develop.localdomain"
 CPU = "2"
-MOMERY = "2048"
+MEMORY = "2048"
 
 COMPOSE_VERSION = "1.29.2"
 
@@ -75,7 +75,7 @@ Vagrant.configure("2") do |config|
 
     # Customize the amount of memory on the VM:
     vb.customize ["modifyvm", :id, "--cpus", CPU, "--ioapic", "on"]
-    vb.customize ["modifyvm", :id, "--memory", MOMERY]
+    vb.customize ["modifyvm", :id, "--memory", MEMORY]
     vb.customize ["modifyvm", :id, "--paravirtprovider", "kvm"]
 
     # Customize for workarounds
