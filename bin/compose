@@ -53,6 +53,19 @@ volume_rm() {
     exit $?
 }
 
+images() {
+    docker-compose images "$@"
+    exit $?
+}
+
+images_clean() {
+    for i in $(docker images -f "dangling=true" -q);
+      do
+        docker rmi "$i";
+      done
+    exit $?
+}
+
 thru() {
     docker-compose "$@"
     exit $?
@@ -72,6 +85,8 @@ usage() {
     echo "  ps                    show process" 1>&2
     echo "  volume                list data volume(s)" 1>&2
     echo "  volume rm             remove data volume(s)" 1>&2
+    echo "  images                list image(s) using in service(s)" 1>&2
+    echo "  images clean          clean dangling image(s)" 1>&2
     exit 1
 }
 
@@ -120,6 +135,17 @@ case ${1} in
                 ;;
            *)
                 volume_ls
+                ;;
+        esac
+        ;;
+    images)
+        shift
+        case ${1} in
+           clean)
+                images_clean
+                ;;
+           *)
+                images "$@"
                 ;;
         esac
         ;;
